@@ -2,6 +2,8 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { createSwitchNavigator, createAppContainer } from 'react-navigation';
 
+import { isLogined } from './auth.js';
+
 import Home from './screens/Home';
 import Login from './screens/Login';
 
@@ -18,19 +20,34 @@ const createRootNavigator = (logined = false) => {
 }
 
 export default class App extends React.Component {
+
+  state = {
+    logined: false,
+    checkLogined: false,
+    access_token: '',
+  }
+
+  componentDidMount() {
+    isLogined()
+      .then(res => {
+        this.setState({
+          logined: res.logined,
+          checkLogined: true,
+        });
+        // console.log(res.access_token);
+      })
+      .catch(error => console.log(error));
+  }
+
   render() {
-    const Layout = createAppContainer(createRootNavigator());
+    const { checkLogined, logined } = this.state;
+
+    if (!checkLogined) { return null; }
+
+    const Layout = createAppContainer(createRootNavigator(logined));
+
     return (
       <Layout />
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
