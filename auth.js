@@ -14,6 +14,7 @@ export const isLogined = async () => {
     try {
         const access_token = await AsyncStorage.getItem(ACCESS_TOKEN);
         if (access_token !== null) {
+            //ログインの状態とtokenを返す
             return { logined: true, access_token: access_token };
         } else {
             return { logined: false, access_token: '' }

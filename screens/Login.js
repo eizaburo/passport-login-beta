@@ -10,7 +10,6 @@ class Login extends React.Component {
     state = {
         email: 'user1@test.com',
         password: 'testtest',
-        logined: false,
     }
 
     render() {
